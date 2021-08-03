@@ -6,6 +6,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
@@ -18,16 +19,21 @@ import javax.swing.SwingConstants;
 
 import java.awt.Color;
 import java.awt.Font;
-
+//import Fuentes;
 public class Batalla extends JFrame {
 
+	private JPanel menu;
 	private JPanel batalla;
 	private boolean gana;
 	private int inxC;
 	private JProgressBar barraDCon,barraVCon;
-
+	Fuentes tipoFuente;
+	
 	public Batalla() {
-
+		setTitle("Seppets");
+		
+		menu=new Menu();
+		tipoFuente=new Fuentes();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 996, 596);
 		batalla = new JPanel();
@@ -50,18 +56,21 @@ public class Batalla extends JFrame {
 			ImageIcon imgDefensa = new ImageIcon(MenuPrincipal.class.getResource("/img/escudo.jpg"));
 			ImageIcon imgCurar = new ImageIcon(MenuPrincipal.class.getResource("/img/pocion.jpg"));
 			ImageIcon imgExit = new ImageIcon(MenuPrincipal.class.getResource("/img/exit.jpg"));
-
+			ImageIcon imgFondoM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
+			
 			// Recogemos el nombre del personaje elegido en la ventana de seleccion, para
 			// ponerlo en la casilla de nuestro personaje
 			String nombre = "P" + VentanaJuego.getPersonaje().toLowerCase() + ".jpg";
 			ImageIcon imgPersonaje = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombre));
 
+			
+			
 			/* LABEL NOMBRE PERSONAJE */
 			JLabel lblNombreP = new JLabel(VentanaJuego.getPersonaje());
 			lblNombreP.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNombreP.setForeground(Color.BLACK);
 			lblNombreP.setBackground(Color.DARK_GRAY);
-			lblNombreP.setFont(new Font("Impact", Font.PLAIN, 20));
+			lblNombreP.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
 			lblNombreP.setBounds(26, 28, 219, 28);
 			batalla.add(lblNombreP);
 
@@ -108,7 +117,7 @@ public class Batalla extends JFrame {
 			lblNombreC.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNombreC.setForeground(Color.BLACK);
 			lblNombreC.setBackground(Color.DARK_GRAY);
-			lblNombreC.setFont(new Font("Impact", Font.PLAIN, 20));
+			lblNombreC.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
 			lblNombreC.setBounds(573, 21, 225, 35);
 			batalla.add(lblNombreC);
 
@@ -179,6 +188,7 @@ public class Batalla extends JFrame {
 
 			/* LABEL EXIT */
 			JLabel lblExit = new JLabel("Exit");
+			lblExit.setBackground(Color.DARK_GRAY);
 			lblExit.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -190,10 +200,35 @@ public class Batalla extends JFrame {
 				}
 			});
 			lblExit.setBounds(789, 475, 146, 55);
-			Principal.escalarImagen(imgExit, lblExit);
+			lblExit.setForeground(Color.BLACK);
+			lblExit.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
+			//Principal.escalarImagen(imgExit, lblExit);
 			batalla.add(lblExit);
-
+			
+			//menu.setVisible(true);
+			/* LABEL MENU*/
+			JLabel lblMenu = new JLabel("Menu");
+			lblMenu.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					//AÑADIR CAPA SUPERIOR DE MENU 
+					JLayeredPane layered= new JLayeredPane();
+					JLabel menuFondo=new JLabel();
+					menuFondo.setIcon(imgFondoM);
+					menuFondo.setSize(imgFondo.getIconWidth(),imgFondo.getIconHeight());
+					layered.add(getContentPane(), new Integer(1));
+					layered.add(menuFondo, new Integer(2));
+					
+					//setContentPane(batalla).add(layered);
+				}
+			});
+			lblMenu.setForeground(Color.BLACK);
+			lblMenu.setFont(tipoFuente.fuente(tipoFuente.adumu,40));
+			lblMenu.setBounds(789, 426, 134, 46);
+			batalla.add(lblMenu);
+			
 			/* LABEL FONDO */
+			
 			JLabel lblFondo = new JLabel("Fondo");
 			lblFondo.setBounds(0, 0, 980, 557);
 			Principal.escalarImagen(imgFondo, lblFondo);

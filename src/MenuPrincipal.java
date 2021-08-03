@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -13,11 +14,13 @@ import javax.swing.JButton;
 
 public class MenuPrincipal extends JFrame {
 
+	Fuentes tipoFuente;
 	private JPanel menuPrincipal;
 	static boolean clickBoton=false;
 	
 	public MenuPrincipal() {
 		
+		tipoFuente =new Fuentes();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 996, 596);
 		menuPrincipal = new JPanel();
@@ -39,7 +42,7 @@ public class MenuPrincipal extends JFrame {
 		menuPrincipal.add(lblTitulo);
 		
 		/*LABEL JUGAR*/
-		JLabel lblJugar = new JLabel("jugar");
+		JLabel lblJugar = new JLabel("Jugar");
 		lblJugar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -53,23 +56,27 @@ public class MenuPrincipal extends JFrame {
 				Principal.sound("botonJ",false);
 			}
 		});
-		lblJugar.setBounds(20, 151, 281, 71);
-		Principal.escalarImagen(imgJugar,lblJugar);
+		lblJugar.setBounds(32, 151, 269, 71);
+		lblJugar.setForeground(Color.WHITE);
+		lblJugar.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
+		//Principal.escalarImagen(imgJugar,lblJugar);
 		menuPrincipal.add(lblJugar);
 		
 		/*LABEL OPCIONES*/
-		JLabel lblOpciones = new JLabel("opciones");
+		JLabel lblOpciones = new JLabel("Opciones");
 		lblOpciones.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			Principal.sound("boton",false);
 		}});
-		lblOpciones.setBounds(20, 270, 281, 71);
-		Principal.escalarImagen(imgOpc,lblOpciones);
+		lblOpciones.setBounds(32, 270, 318, 71);
+		lblOpciones.setForeground(Color.WHITE);
+		lblOpciones.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
+		//Principal.escalarImagen(imgOpc,lblOpciones);
 		menuPrincipal.add(lblOpciones);
 		
 		/*LABEL SALIR*/
-		JLabel lblSalir = new JLabel("salir");
+		JLabel lblSalir = new JLabel("Salir");
 		lblSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -81,8 +88,10 @@ public class MenuPrincipal extends JFrame {
 				Principal.sound("botonS",false);
 			}
 		});
-		lblSalir.setBounds(20, 393, 281, 71);
-		Principal.escalarImagen(imgSalir,lblSalir);
+		lblSalir.setBounds(32, 393, 269, 71);
+		lblSalir.setForeground(Color.WHITE);
+		lblSalir.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
+		//Principal.escalarImagen(imgSalir,lblSalir);
 		menuPrincipal.add(lblSalir);
 		
 		

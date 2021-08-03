@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 public class VentanaJuego extends JFrame {
 
+	Fuentes tipoFuente;
 	private JPanel Juego;
 	public static JLabel lblCelmo,lblCgustavo,lblCgalleta,lblCpeggy,lblCgonzo,lblCcaponata,lblCanimal,lblCepiblas,lblCmimimi,lblCcoco,lblCcrazyHarry,lblCgruñon;
 	public static Personajes[] personajes={
@@ -39,6 +40,7 @@ public class VentanaJuego extends JFrame {
 	
 	public VentanaJuego() {
 
+		tipoFuente=new Fuentes();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 996, 596);
 		Juego = new JPanel();
@@ -84,14 +86,16 @@ public class VentanaJuego extends JFrame {
 			lblPSelec.setForeground(Color.WHITE);
 			lblPSelec.setBackground(Color.DARK_GRAY);
 			lblPSelec.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPSelec.setFont(new Font("Impact", Font.PLAIN, 20));
-			lblPSelec.setBounds(242, 457, 316, 81);
+			lblPSelec.setFont(tipoFuente.fuente(tipoFuente.adumu, 20));
+			lblPSelec.setBounds(292, 457, 309, 81);
 			Juego.add(lblPSelec);
 			
 			/* LABEL TITULO */
-			JLabel lblTitulo = new JLabel("titulo");
-			lblTitulo.setBounds(255, 0, 467, 95);
-			Principal.escalarImagen(imgTituloP, lblTitulo);
+			JLabel lblTitulo = new JLabel("Selecciona Personaje");
+			lblTitulo.setBounds(149, 0, 637, 95);
+			lblTitulo.setForeground(Color.WHITE);
+			lblTitulo.setFont(tipoFuente.fuente(tipoFuente.adumu, 50));
+			//Principal.escalarImagen(imgTituloP, lblTitulo);
 			Juego.add(lblTitulo);
 
 			/* PERSONAJES BARRIO SESAMO */
@@ -428,6 +432,7 @@ public class VentanaJuego extends JFrame {
 
 			/* LABEL VOLVER */
 			JLabel lblVolver = new JLabel("Volver");
+			lblVolver.setForeground(Color.WHITE);
 			lblVolver.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -439,7 +444,8 @@ public class VentanaJuego extends JFrame {
 				}
 			});
 			lblVolver.setBounds(781, 473, 174, 73);
-			Principal.escalarImagen(imgVolver, lblVolver);
+			lblVolver.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
+			//Principal.escalarImagen(imgVolver, lblVolver);
 			Juego.add(lblVolver);
 			
 			/*LABEL ALTAVOZ*/
@@ -484,8 +490,10 @@ public class VentanaJuego extends JFrame {
 					}
 				}
 			});
-			lblConfirmar.setBounds(43, 473, 174, 73);
-			Principal.escalarImagen(imgConfirmar, lblConfirmar);
+			lblConfirmar.setBounds(43, 473, 236, 73);
+			lblConfirmar.setForeground(Color.WHITE);
+			lblConfirmar.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
+			//Principal.escalarImagen(imgConfirmar, lblConfirmar);
 			Juego.add(lblConfirmar);
 
 			/* LABEL FONDO */

@@ -1,6 +1,8 @@
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class Principal {
-
-	// private static final boolean press=false;
 
 	public static void main(String[] args) {
 
@@ -107,4 +107,6 @@ public class Principal {
 		Principal.escalarImagen(imgPcrazyHarry,VentanaJuego.lblCcrazyHarry);
 		Principal.escalarImagen(imgPgruñon,VentanaJuego.lblCgruñon);
 	}
+	
+	
 }
