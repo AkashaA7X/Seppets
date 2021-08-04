@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 public class VentanaJuego extends JFrame {
 
 	Fuentes tipoFuente;
-	private JPanel Juego;
+	public JPanel Juego;
 	public static JLabel lblCelmo,lblCgustavo,lblCgalleta,lblCpeggy,lblCgonzo,lblCcaponata,lblCanimal,lblCepiblas,lblCmimimi,lblCcoco,lblCcrazyHarry,lblCgruñon;
 	public static Personajes[] personajes={
 			new Personajes("Elmo",60,35),
@@ -100,7 +100,6 @@ public class VentanaJuego extends JFrame {
 
 			/* PERSONAJES BARRIO SESAMO */
 			/* CASILLA 0-0 */
-			
 			lblCelmo = new JLabel("Casilla Elmo");
 			lblCelmo.addMouseListener(new MouseAdapter() {
 				@Override
@@ -117,14 +116,6 @@ public class VentanaJuego extends JFrame {
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[0].getNombre()+"</p><p>VIDA: "+personajes[0].getVida()+" DEFENSA: "+personajes[0].getDefensa()+"</p><p>ATAQUE: "+personajes[0].getAtaque()+"</p></html>");
 						
 					}
-//					else {
-//						System.out.println("La casilla esta desmarcada");
-//						Principal.seleccionar("Pelmo", lblCelmo);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[0];
-//						System.out.println(personajes[0].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[0].getNombre()+"</p><p>VIDA: "+personajes[0].getVida()+" DEFENSA: "+personajes[0].getDefensa()+"</p><p>ATAQUE: "+personajes[0].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCelmo.setBounds(43, 113, 117, 126);
@@ -145,13 +136,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[1].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[1].getNombre()+"</p><p>VIDA: "+personajes[1].getVida()+" DEFENSA: "+personajes[1].getDefensa()+"</p><p>ATAQUE: "+personajes[1].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pgalletas", lblCgalleta);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[1];
-//						System.out.println(personajes[1].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[1].getNombre()+"</p><p>VIDA: "+personajes[1].getVida()+" DEFENSA: "+personajes[1].getDefensa()+"</p><p>ATAQUE: "+personajes[1].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCgalleta.setBounds(190, 113, 117, 126);
@@ -172,13 +156,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[2].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[2].getNombre()+"</p><p>VIDA: "+personajes[2].getVida()+" DEFENSA: "+personajes[2].getDefensa()+"</p><p>ATAQUE: "+personajes[2].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pcaponata", lblCcaponata);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[2];
-//						System.out.println(personajes[2].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[2].getNombre()+"</p><p>VIDA: "+personajes[2].getVida()+" DEFENSA: "+personajes[2].getDefensa()+"</p><p>ATAQUE: "+personajes[2].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCcaponata.setBounds(337, 113, 117, 126);
@@ -199,13 +176,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[3].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[3].getNombre()+"</p><p>VIDA: "+personajes[3].getVida()+" DEFENSA: "+personajes[3].getDefensa()+"</p><p>ATAQUE: "+personajes[3].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pepiblas", lblCepiblas);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[3];
-//						System.out.println(personajes[3].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[3].getNombre()+"</p><p>VIDA: "+personajes[3].getVida()+" DEFENSA: "+personajes[3].getDefensa()+"</p><p>ATAQUE: "+personajes[3].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCepiblas.setBounds(484, 113, 117, 126);
@@ -226,13 +196,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[4].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[4].getNombre()+"</p><p>VIDA: "+personajes[4].getVida()+" DEFENSA: "+personajes[4].getDefensa()+"</p><p>ATAQUE: "+personajes[4].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pcoco", lblCcoco);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[4];
-//						System.out.println(personajes[4].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[4].getNombre()+"</p><p>VIDA: "+personajes[4].getVida()+" DEFENSA: "+personajes[4].getDefensa()+"</p><p>ATAQUE: "+personajes[4].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCcoco.setBounds(631, 113, 117, 126);
@@ -253,13 +216,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[5].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[5].getNombre()+"</p><p>VIDA: "+personajes[5].getVida()+" DEFENSA: "+personajes[5].getDefensa()+"</p><p>ATAQUE: "+personajes[5].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pgruñon", lblCgruñon);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[5];
-//						System.out.println(personajes[5].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[5].getNombre()+"</p><p>VIDA: "+personajes[5].getVida()+" DEFENSA: "+personajes[5].getDefensa()+"</p><p>ATAQUE: "+personajes[5].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCgruñon.setBounds(778, 113, 117, 126);
@@ -282,13 +238,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[6].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[6].getNombre()+"</p><p>VIDA: "+personajes[6].getVida()+" DEFENSA: "+personajes[6].getDefensa()+"</p><p>ATAQUE: "+personajes[6].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pgustavo", lblCgustavo);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[6];
-//						System.out.println(personajes[6].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[6].getNombre()+"</p><p>VIDA: "+personajes[6].getVida()+" DEFENSA: "+personajes[6].getDefensa()+"</p><p>ATAQUE: "+personajes[6].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCgustavo.setBounds(43, 289, 117, 126);
@@ -309,13 +258,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[7].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[7].getNombre()+"</p><p>VIDA: "+personajes[7].getVida()+" DEFENSA: "+personajes[7].getDefensa()+"</p><p>ATAQUE: "+personajes[7].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Ppeggy", lblCpeggy);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[7];
-//						System.out.println(personajes[7].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[7].getNombre()+"</p><p>VIDA: "+personajes[7].getVida()+" DEFENSA: "+personajes[7].getDefensa()+"</p><p>ATAQUE: "+personajes[7].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCpeggy.setBounds(190, 289, 117, 126);
@@ -336,13 +278,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[8].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[8].getNombre()+"</p><p>VIDA: "+personajes[8].getVida()+" DEFENSA: "+personajes[8].getDefensa()+"</p><p>ATAQUE: "+personajes[8].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pgonzo", lblCgonzo);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[8];
-//						System.out.println(personajes[8].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[8].getNombre()+"</p><p>VIDA: "+personajes[8].getVida()+" DEFENSA: "+personajes[8].getDefensa()+"</p><p>ATAQUE: "+personajes[8].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCgonzo.setBounds(337, 289, 117, 126);
@@ -363,13 +298,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[9].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[9].getNombre()+"</p><p>VIDA: "+personajes[9].getVida()+" DEFENSA: "+personajes[9].getDefensa()+"</p><p>ATAQUE: "+personajes[9].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Panimal", lblCanimal);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[9];
-//						System.out.println(personajes[9].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[9].getNombre()+"</p><p>VIDA: "+personajes[9].getVida()+" DEFENSA: "+personajes[9].getDefensa()+"</p><p>ATAQUE: "+personajes[9].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCanimal.setBounds(484, 289, 117, 126);
@@ -390,13 +318,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[10].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[10].getNombre()+"</p><p>VIDA: "+personajes[10].getVida()+" DEFENSA: "+personajes[10].getDefensa()+"</p><p>ATAQUE: "+personajes[10].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("Pmimimi", lblCmimimi);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[10];
-//						System.out.println(personajes[10].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[10].getNombre()+"</p><p>VIDA: "+personajes[10].getVida()+" DEFENSA: "+personajes[10].getDefensa()+"</p><p>ATAQUE: "+personajes[10].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCmimimi.setBounds(631, 289, 117, 126);
@@ -417,13 +338,6 @@ public class VentanaJuego extends JFrame {
 						System.out.println(personajes[11].toString());
 						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[11].getNombre()+"</p><p>VIDA: "+personajes[11].getVida()+" DEFENSA: "+personajes[11].getDefensa()+"</p><p>ATAQUE: "+personajes[11].getAtaque()+"</p></html>");
 					}
-//					else {
-//						Principal.seleccionar("PcrazyHarry", lblCcrazyHarry);
-//						/*CONEXION CON PERSONAJES*/
-//						personajeElegido=personajes[11];
-//						System.out.println(personajes[11].toString());
-//						lblPSelec.setText("<html><p>PERSONAJE: "+personajes[11].getNombre()+"</p><p>VIDA: "+personajes[11].getVida()+" DEFENSA: "+personajes[11].getDefensa()+"</p><p>ATAQUE: "+personajes[11].getAtaque()+"</p></html>");
-//					}
 				}
 			});
 			lblCcrazyHarry.setBounds(778, 289, 117, 126);

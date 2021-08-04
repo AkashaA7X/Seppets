@@ -1,6 +1,7 @@
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
@@ -19,20 +20,32 @@ import javax.swing.SwingConstants;
 
 import java.awt.Color;
 import java.awt.Font;
-//import Fuentes;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+
 public class Batalla extends JFrame {
 
-	private JPanel menu;
+	//private JPanel menu;
 	private JPanel batalla;
 	private boolean gana;
 	private int inxC;
 	private JProgressBar barraDCon,barraVCon;
 	Fuentes tipoFuente;
 	
+	/*Labeles menu desplegable*/
+	private JLabel lblDesMenu;
+	private JLabel lblReanudar;
+	private JLabel lblOpciones;
+	private JLabel lblSalir;
+	private JLabel lblDesOpciones;
+	private JLabel lblVolumen;
+	private JSlider jsVol;
+	private JLabel lblVolver;
+	private int vol;
+	
 	public Batalla() {
 		setTitle("Seppets");
-		
-		menu=new Menu();
 		tipoFuente=new Fuentes();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 996, 596);
@@ -47,6 +60,7 @@ public class Batalla extends JFrame {
 			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			Clip sonido = AudioSystem.getClip();
 			sonido.open(audio);
+			FloatControl controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
 
@@ -55,14 +69,115 @@ public class Batalla extends JFrame {
 			ImageIcon imgAtaque = new ImageIcon(MenuPrincipal.class.getResource("/img/espada.jpg"));
 			ImageIcon imgDefensa = new ImageIcon(MenuPrincipal.class.getResource("/img/escudo.jpg"));
 			ImageIcon imgCurar = new ImageIcon(MenuPrincipal.class.getResource("/img/pocion.jpg"));
-			ImageIcon imgExit = new ImageIcon(MenuPrincipal.class.getResource("/img/exit.jpg"));
+			ImageIcon imgFondoO = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 			ImageIcon imgFondoM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
 			
-			// Recogemos el nombre del personaje elegido en la ventana de seleccion, para
-			// ponerlo en la casilla de nuestro personaje
+			// Recogemos el nombre del personaje elegido en la ventana de seleccion, para ponerlo en la casilla de nuestro personaje
 			String nombre = "P" + VentanaJuego.getPersonaje().toLowerCase() + ".jpg";
 			ImageIcon imgPersonaje = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombre));
 
+			/* LABEL VOLUMEN*/
+			lblVolumen =new JLabel("Volumen");
+			lblVolumen.setBounds(297, 211, 140, 28);
+			lblVolumen.setVisible(false);
+			lblVolumen.setForeground(Color.WHITE);
+			lblVolumen.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+			batalla.add(lblVolumen);
+			
+			/* SLIDER VOLUMEN*/
+			jsVol = new JSlider(-80,6,-20);
+			jsVol.setVisible(false);
+			jsVol.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					//Recogemos en tiempo real el movimiento que hace el usuario en el Slider y lo colocamos en el controlVolumen
+					vol=jsVol.getValue();
+					controlVolumen.setValue(vol);
+				}
+			});
+			jsVol.setBounds(478, 213, 200, 26);
+			batalla.add(jsVol);
+			
+			/* LABEL VOLVER*/
+			lblVolver =new JLabel("Volver");
+			lblVolver.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					activarOpciones(false);
+					activarMenu(true);
+				}
+			});
+			lblVolver.setBounds(297, 390, 115, 28);
+			lblVolver.setVisible(false);
+			lblVolver.setForeground(Color.WHITE);
+			lblVolver.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+			batalla.add(lblVolver);
+			
+			/* LABEL DESPLIEGUE OPCIONES*/
+			lblDesOpciones = new JLabel("Menu Opciones");
+			lblDesOpciones.setBounds(254, 79, 441, 360);
+			lblDesOpciones.setVisible(false);
+			Principal.escalarImagen(imgFondoO, lblDesOpciones);
+			batalla.add(lblDesOpciones);
+			
+			/* LABEL REANUDAR*/
+			lblReanudar = new JLabel("Reanudar");
+			lblReanudar.setVisible(false);
+			lblReanudar.setBackground(Color.DARK_GRAY);
+			lblReanudar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					//Volvemos a la pantalla de batalla,desactivando el despliegue del menu
+					activarMenu(false);
+				}
+			});
+			lblReanudar.setBounds(393, 187, 172, 52);
+			lblReanudar.setForeground(Color.BLACK);
+			lblReanudar.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
+			batalla.add(lblReanudar);
+			
+			/* LABEL OPCIONES */
+			lblOpciones = new JLabel("Opciones");
+			lblOpciones.setVisible(false);
+			lblOpciones.setBackground(Color.DARK_GRAY);
+			lblOpciones.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					//Se invisibiliza el menu, se abre el panel de opciones, el volver de opciones te lleva al menu
+					activarMenu(false);
+					activarOpciones(true);
+				}
+			});
+			lblOpciones.setBounds(404, 270, 161, 52);
+			lblOpciones.setForeground(Color.BLACK);
+			lblOpciones.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
+			batalla.add(lblOpciones);
+			
+			/* LABEL EXIT */
+			lblSalir = new JLabel("Salir");
+			lblSalir.setVisible(false);
+			lblSalir.setBackground(Color.DARK_GRAY);
+			lblSalir.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					VentanaJuego.crearPersonajes();
+					sonido.stop();
+					dispose();
+					MenuPrincipal m = new MenuPrincipal();
+					m.setVisible(true);
+				}
+			});
+			lblSalir.setBounds(425, 357, 113, 48);
+			lblSalir.setForeground(Color.BLACK);
+			lblSalir.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
+			batalla.add(lblSalir);
+			
+			/* LABEL DESPLIGUE MENU*/
+			lblDesMenu = new JLabel("Despliegue menu");
+			lblDesMenu.setBounds(320, 67, 310, 391);
+			lblDesMenu.setVisible(false);
+			Principal.escalarImagen(imgFondoM, lblDesMenu);
+			batalla.add(lblDesMenu);
 			
 			
 			/* LABEL NOMBRE PERSONAJE */
@@ -159,14 +274,15 @@ public class Batalla extends JFrame {
 					System.out.println(dCon);
 					// Se le modifica al personaje contrincante su defensa, restandole el ataque del personaje
 					if (dCon >= 0) {
+						int dConNew = dCon - VentanaJuego.personajes[inxP].getAtaque();
 						VentanaJuego.personajes[inxC].setDefensa(dCon - VentanaJuego.personajes[inxP].getAtaque());
-						int dConNew = dCon;
 						barraDCon.setValue(dConNew);
 					}else {
 						barraDCon.setValue(0);
 						System.out.println("El ataque afecta a la vida");
+						int vConNew = vCon - VentanaJuego.personajes[inxP].getAtaque();
 						VentanaJuego.personajes[inxC].setVida(vCon - VentanaJuego.personajes[inxP].getAtaque());
-						barraVCon.setValue(vCon);
+						barraVCon.setValue(vConNew);
 					}
 				}
 			});
@@ -186,49 +302,45 @@ public class Batalla extends JFrame {
 			Principal.escalarImagen(imgCurar, lblCurar);
 			batalla.add(lblCurar);
 
-			/* LABEL EXIT */
-			JLabel lblExit = new JLabel("Exit");
-			lblExit.setBackground(Color.DARK_GRAY);
-			lblExit.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					VentanaJuego.crearPersonajes();
-					sonido.stop();
-					dispose();
-					MenuPrincipal m = new MenuPrincipal();
-					m.setVisible(true);
-				}
-			});
-			lblExit.setBounds(789, 475, 146, 55);
-			lblExit.setForeground(Color.BLACK);
-			lblExit.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
-			//Principal.escalarImagen(imgExit, lblExit);
-			batalla.add(lblExit);
+//			/* LABEL EXIT */
+//			JLabel lblExit = new JLabel("Exit");
+//			lblExit.setBackground(Color.DARK_GRAY);
+//			lblExit.addMouseListener(new MouseAdapter() {
+//				@Override
+//				public void mouseClicked(MouseEvent arg0) {
+//					VentanaJuego.crearPersonajes();
+//					sonido.stop();
+//					dispose();
+//					MenuPrincipal m = new MenuPrincipal();
+//					m.setVisible(true);
+//				}
+//			});
+//			lblExit.setBounds(789, 475, 146, 55);
+//			lblExit.setForeground(Color.BLACK);
+//			lblExit.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
+//			//Principal.escalarImagen(imgExit, lblExit);
+//			batalla.add(lblExit);
 			
-			//menu.setVisible(true);
+			
+			
 			/* LABEL MENU*/
 			JLabel lblMenu = new JLabel("Menu");
 			lblMenu.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					//AÑADIR CAPA SUPERIOR DE MENU 
-					JLayeredPane layered= new JLayeredPane();
-					JLabel menuFondo=new JLabel();
-					menuFondo.setIcon(imgFondoM);
-					menuFondo.setSize(imgFondo.getIconWidth(),imgFondo.getIconHeight());
-					layered.add(getContentPane(), new Integer(1));
-					layered.add(menuFondo, new Integer(2));
-					
-					//setContentPane(batalla).add(layered);
+					lblDesMenu.setVisible(true);
+					lblReanudar.setVisible(true);
+					lblOpciones.setVisible(true);
+					lblSalir.setVisible(true);
 				}
 			});
 			lblMenu.setForeground(Color.BLACK);
 			lblMenu.setFont(tipoFuente.fuente(tipoFuente.adumu,40));
-			lblMenu.setBounds(789, 426, 134, 46);
+			lblMenu.setBounds(791, 484, 134, 46);
 			batalla.add(lblMenu);
 			
 			/* LABEL FONDO */
-			
 			JLabel lblFondo = new JLabel("Fondo");
 			lblFondo.setBounds(0, 0, 980, 557);
 			Principal.escalarImagen(imgFondo, lblFondo);
@@ -237,5 +349,19 @@ public class Batalla extends JFrame {
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
 			System.out.println("Error");
 		}
+	}
+	
+	public void activarMenu(boolean activar) {
+		this.lblDesMenu.setVisible(activar);
+		this.lblReanudar.setVisible(activar);
+		this.lblOpciones.setVisible(activar);
+		this.lblSalir.setVisible(activar);
+	}
+	
+	public void activarOpciones(boolean activar) {
+		this.lblDesOpciones.setVisible(activar);
+		this.lblVolumen.setVisible(activar);
+		this.jsVol.setVisible(activar);
+		this.lblVolver.setVisible(activar);
 	}
 }

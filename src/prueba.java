@@ -14,11 +14,20 @@ import javax.swing.border.EmptyBorder;
 public class prueba extends JFrame {
 	
 	private static JLabel lblJugar;
+	private static JLabel lblOpcion;
+	
 	public prueba() {
+		ImageIcon imgM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
+		//ImageIcon imgM = new ImageIcon(MenuPrincipal.class.getResource("/img/.jpg"));
 		getContentPane().setLayout(null);
-		lblJugar = new JLabel("jugar");
-		lblJugar.setBounds(183, 110, 46, 14);
-		lblJugar.setIcon(imgM);
+		
+		/* LABEL DESPLIGUE MENU*/
+		JLabel lblDesMenu = new JLabel("Despliegue menu");
+		lblDesMenu.setBounds(320, 67, 310, 391);
+		lblDesMenu.setVisible(false);
+		//lblDesMenu.setIcon(imgFondoM);
+		Principal.escalarImagen(imgM, lblDesMenu);
+		add(lblDesMenu);
 		
 		
 	}
@@ -46,12 +55,17 @@ public class prueba extends JFrame {
 				JLabel primerPlano = new JLabel("Primer plano");
 				primerPlano.setSize(200, 40);
 				
+				//La etiqueta que ira de segundo plano
+				JLabel segundoPlano = lblJugar;
+				//segundoPlano.setSize(300, 20);
+				//segundoPlano =lblOpcion;
 				
 				// Se mete imagen y etiqueta en el JLayeredPane. Debe ser Integer, no vale int.
 				// Los Integer bajos corresponden a capas del fondo.
 				layered.add(fondo, new Integer(1));
 				layered.add(primerPlano, new Integer(2));
-				layered.add(lblJugar, new Integer(3));
+				//layered.add(segundoPlano, new Integer(3));
+				//layered.add(lblJugar, new Integer(3));
 				
 				// Se visualiza todo.
 				v.getContentPane().add(layered);

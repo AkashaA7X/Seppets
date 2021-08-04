@@ -55,7 +55,7 @@ public class Principal {
 
 	// metodo seleccion de label ( la imagen cambia al pulsarla), junto con nuevas
 	// mecanicas de seleccion
-	static boolean press = false;
+	static boolean press = true;
 
 	public static boolean seleccionar(String imgInicial, JLabel lbl) {
 
