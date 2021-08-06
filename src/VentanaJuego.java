@@ -1,6 +1,7 @@
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
@@ -55,6 +56,7 @@ public class VentanaJuego extends JFrame {
 			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			Clip sonido = AudioSystem.getClip();
 			sonido.open(audio);
+			FloatControl controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY); // repetir siempre
 
@@ -86,7 +88,7 @@ public class VentanaJuego extends JFrame {
 			lblPSelec.setForeground(Color.WHITE);
 			lblPSelec.setBackground(Color.DARK_GRAY);
 			lblPSelec.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPSelec.setFont(tipoFuente.fuente(tipoFuente.adumu, 20));
+			lblPSelec.setFont ( new Font ("Impact",Font.PLAIN,20));
 			lblPSelec.setBounds(292, 457, 309, 81);
 			Juego.add(lblPSelec);
 			
@@ -95,7 +97,6 @@ public class VentanaJuego extends JFrame {
 			lblTitulo.setBounds(149, 0, 637, 95);
 			lblTitulo.setForeground(Color.WHITE);
 			lblTitulo.setFont(tipoFuente.fuente(tipoFuente.adumu, 50));
-			//Principal.escalarImagen(imgTituloP, lblTitulo);
 			Juego.add(lblTitulo);
 
 			/* PERSONAJES BARRIO SESAMO */
@@ -108,7 +109,7 @@ public class VentanaJuego extends JFrame {
 						//Si devuelve true es que hay que desmarcar las imagenes presionadas
 						System.out.println("press ha sido activado en otra casilla E");
 						System.out.println("Se desmarcan casillas:");
-						//Principal.desmarcar();
+						Principal.desmarcar();
 						Principal.seleccionar("Pelmo", lblCelmo);
 						/*CONEXION CON PERSONAJES*/
 						personajeElegido=personajes[0];

@@ -20,4 +20,6 @@ public class Fuentes {
 		Font tfont= font.deriveFont(Font.BOLD, tamano);
 		return tfont;
 	}
+	
+	
 }

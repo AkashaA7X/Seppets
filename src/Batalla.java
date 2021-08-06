@@ -14,6 +14,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
@@ -43,6 +45,7 @@ public class Batalla extends JFrame {
 	private JSlider jsVol;
 	private JLabel lblVolver;
 	private int vol;
+	private JLabel lblNewLabel;
 	
 	public Batalla() {
 		setTitle("Seppets");
@@ -72,10 +75,42 @@ public class Batalla extends JFrame {
 			ImageIcon imgFondoO = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 			ImageIcon imgFondoM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
 			
+			/* COLOCAR CONTRINCANTE */
+			String imgC = "";
+			inxC = 12;
+			int inxP = VentanaJuego.getInx(VentanaJuego.getPersonaje());
+			System.out.println("Inx del personaje: " + inxP);
+
+			if (inxP >= 0 && inxP <= 5) {
+				System.out.println("EL personaje es del grupo Barrio Sesamo");
+				inxC = 6;
+				imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
+			} else if (inxP >= 6 && inxP <= 11) {
+				System.out.println("El personaje es del grupo Muppets");
+				inxC = 0;
+				imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
+			}
+			
 			// Recogemos el nombre del personaje elegido en la ventana de seleccion, para ponerlo en la casilla de nuestro personaje
 			String nombre = "P" + VentanaJuego.getPersonaje().toLowerCase() + ".jpg";
 			ImageIcon imgPersonaje = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombre));
-
+			
+			String nombreActGif ="P"+ VentanaJuego.getPersonaje().toLowerCase()+"Act.gif";
+			System.out.println(nombreActGif);
+			ImageIcon imgPersonajeAct = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreActGif));
+			
+			String nombreDefGif ="P"+ VentanaJuego.getPersonaje().toLowerCase()+"Def.gif";
+			System.out.println(nombreDefGif);
+			ImageIcon imgPersonajeDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGif));
+			
+			String nombreActGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Act.gif";
+			System.out.println("Nombre imgAct Contrincante: "+nombreActGifC);
+			ImageIcon imgContrincanteAct = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreActGifC));
+			
+			String nombreDefGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Def.gif";
+			System.out.println("Nombre imgDef Contrincante: "+nombreDefGifC);
+			ImageIcon imgContrincanteDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGifC));
+			
 			/* LABEL VOLUMEN*/
 			lblVolumen =new JLabel("Volumen");
 			lblVolumen.setBounds(297, 211, 140, 28);
@@ -114,7 +149,7 @@ public class Batalla extends JFrame {
 			
 			/* LABEL DESPLIEGUE OPCIONES*/
 			lblDesOpciones = new JLabel("Menu Opciones");
-			lblDesOpciones.setBounds(254, 79, 441, 360);
+			lblDesOpciones.setBounds(254, 82, 441, 360);
 			lblDesOpciones.setVisible(false);
 			Principal.escalarImagen(imgFondoO, lblDesOpciones);
 			batalla.add(lblDesOpciones);
@@ -189,12 +224,25 @@ public class Batalla extends JFrame {
 			lblNombreP.setBounds(26, 28, 219, 28);
 			batalla.add(lblNombreP);
 
+			/* LABEL IMAGEN PERSONAJE ACCION*/
+			JLabel lblPersonajeAcc = new JLabel("");
+			lblPersonajeAcc.setBounds(243, 149, 241, 243);
+			lblPersonajeAcc.setVisible(true);
+			batalla.add(lblPersonajeAcc);
+			
+			/* LABEL IMAGEN CONTRINCANTE ACCION*/
+			JLabel lblContrincanteAcc = new JLabel("");
+			lblContrincanteAcc.setBounds(501, 149, 241, 243);
+			lblContrincanteAcc.setVisible(true);
+			batalla.add(lblContrincanteAcc);
+			
 			/* LABEL IMAGEN PERSONAJE */
 			JLabel lblPersonajeElegido = new JLabel("Personaje elegido");
 			lblPersonajeElegido.setBounds(20, 90, 464, 315);
 			Principal.escalarImagen(imgPersonaje, lblPersonajeElegido);
 			batalla.add(lblPersonajeElegido);
 
+			
 			/* BARRA DE VIDA PERSONAJE */
 			JProgressBar barraVPer = new JProgressBar();
 			barraVPer.setValue(VentanaJuego.personajeElegido.getVida());
@@ -210,22 +258,6 @@ public class Batalla extends JFrame {
 			barraDPer.setForeground(new Color(0, 206, 209));
 			barraDPer.setBounds(244, 55, 146, 24);
 			batalla.add(barraDPer);
-
-			/* COLOCAR CONTRINCANTE */
-			String imgC = "";
-			inxC = 12;
-			int inxP = VentanaJuego.getInx(VentanaJuego.getPersonaje());
-			System.out.println("Inx del personaje: " + inxP);
-
-			if (inxP >= 0 && inxP <= 5) {
-				System.out.println("EL personaje es del grupo Barrio Sesamo");
-				inxC = 6;
-				imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
-			} else if (inxP >= 6 && inxP <= 11) {
-				System.out.println("El personaje es del grupo Muppets");
-				inxC = 0;
-				imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
-			}
 
 			/* LABEL NOMBRE CONTRINCANTE */
 			JLabel lblNombreC = new JLabel(VentanaJuego.personajes[inxC].getNombre());
@@ -244,7 +276,6 @@ public class Batalla extends JFrame {
 			batalla.add(lblContrincante);
 
 			/* BARRA DE VIDA CONTRINCANTE */
-			//JProgressBar 
 			barraVCon = new JProgressBar();
 			barraVCon.setValue(VentanaJuego.personajes[inxC].getVida());
 			barraVCon.setStringPainted(true);
@@ -253,7 +284,6 @@ public class Batalla extends JFrame {
 			batalla.add(barraVCon);
 
 			/* BARRA DEFENSA CONTRINCANTE */
-			// JProgressBar
 			barraDCon = new JProgressBar();
 			barraDCon.setValue(VentanaJuego.personajes[inxC].getDefensa());
 			barraDCon.setStringPainted(true);
@@ -266,12 +296,14 @@ public class Batalla extends JFrame {
 			lblAtaque.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					System.out.println("Se activa atacar");
+					
+					cambiarImgTimer(lblPersonajeAcc, 3, imgPersonajeAct);
+					
 					int dPer = VentanaJuego.personajes[inxP].getDefensa();
 					int dCon = VentanaJuego.personajes[inxC].getDefensa();
 					int vPer = VentanaJuego.personajes[inxP].getVida();
 					int vCon = VentanaJuego.personajes[inxC].getVida();
-					System.out.println(dCon);
+					System.out.println("Defensa contrincante: "+dCon);
 					// Se le modifica al personaje contrincante su defensa, restandole el ataque del personaje
 					if (dCon >= 0) {
 						int dConNew = dCon - VentanaJuego.personajes[inxP].getAtaque();
@@ -284,6 +316,20 @@ public class Batalla extends JFrame {
 						VentanaJuego.personajes[inxC].setVida(vCon - VentanaJuego.personajes[inxP].getAtaque());
 						barraVCon.setValue(vConNew);
 					}
+					
+					//Turno del contrincante PENDIENTE
+					cambiarImgTimer(lblContrincanteAcc,3,imgContrincanteAct);
+					if(dPer >0) {
+						int dPerNew = dPer-VentanaJuego.personajes[inxC].getAtaque();
+						VentanaJuego.personajes[inxP].setDefensa(dPer -VentanaJuego.personajes[inxC].getAtaque());
+						barraDPer.setValue(dPerNew);
+					}else {
+						barraDPer.setValue(0);
+						System.out.println("El ataque del contrincante afecta a la vida");
+						int vPerNew= vPer-VentanaJuego.personajes[inxC].getAtaque();
+						VentanaJuego.personajes[inxP].setVida(vPer-VentanaJuego.personajes[inxC].getAtaque());
+						barraVPer.setValue(vPerNew);
+					}
 				}
 			});
 			lblAtaque.setBounds(71, 450, 85, 80);
@@ -292,35 +338,40 @@ public class Batalla extends JFrame {
 
 			/* LABEL ESCUDO */
 			JLabel lblDefensa = new JLabel("Defensa");
+			lblDefensa.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					//FALLA LA RECOGIDA DEL GET VALUE DE LAS BARRAS
+					cambiarImgTimer(lblPersonajeAcc,2,imgPersonajeDef);
+					System.out.println("Defensa personaje actual: "+barraDPer.getValue());
+					int defFal=100-barraDPer.getValue();
+					System.out.println("Defensa faltante: "+defFal);
+					barraDPer.setValue(barraDPer.getValue()+defFal/2);
+					
+					//Turno del contrincante PENDIENTE
+					cambiarImgTimer(lblContrincanteAcc,2,imgContrincanteDef);
+					System.out.println("Defensa contrincante actual: "+barraDCon.getValue());
+					barraDCon.setValue(100-barraDCon.getValue()/2);
+				}
+			});
 			lblDefensa.setBounds(208, 450, 85, 80);
 			Principal.escalarImagen(imgDefensa, lblDefensa);
 			batalla.add(lblDefensa);
 
 			/* LABEL CURAR */
 			JLabel lblCurar = new JLabel("Curar");
+			lblCurar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// IMPLEMENTAR CURA, POSIBLE CAMBIO DE INTERFAZ CON CONTADOR DE POCIONES
+					//POCION CURA +50 VIDA
+					cambiarImgTimer(lblPersonajeAcc,2,CargarImg.imgCurarAcc);
+				}
+			});
 			lblCurar.setBounds(374, 450, 85, 80);
 			Principal.escalarImagen(imgCurar, lblCurar);
 			batalla.add(lblCurar);
-
-//			/* LABEL EXIT */
-//			JLabel lblExit = new JLabel("Exit");
-//			lblExit.setBackground(Color.DARK_GRAY);
-//			lblExit.addMouseListener(new MouseAdapter() {
-//				@Override
-//				public void mouseClicked(MouseEvent arg0) {
-//					VentanaJuego.crearPersonajes();
-//					sonido.stop();
-//					dispose();
-//					MenuPrincipal m = new MenuPrincipal();
-//					m.setVisible(true);
-//				}
-//			});
-//			lblExit.setBounds(789, 475, 146, 55);
-//			lblExit.setForeground(Color.BLACK);
-//			lblExit.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
-//			//Principal.escalarImagen(imgExit, lblExit);
-//			batalla.add(lblExit);
-			
 			
 			
 			/* LABEL MENU*/
@@ -345,6 +396,7 @@ public class Batalla extends JFrame {
 			lblFondo.setBounds(0, 0, 980, 557);
 			Principal.escalarImagen(imgFondo, lblFondo);
 			batalla.add(lblFondo);
+			
 
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
 			System.out.println("Error");
@@ -364,4 +416,27 @@ public class Batalla extends JFrame {
 		this.jsVol.setVisible(activar);
 		this.lblVolver.setVisible(activar);
 	}
+	
+	
+	public void cambiarImgTimer(JLabel jl,int tiempo,ImageIcon imagen) {
+		int velocidad=tiempo; //segundos
+		Timer timer;
+		TimerTask tarea;
+		int velmil =velocidad*1000;
+		//Se coloca la imagen en el label
+		jl.setIcon(imagen);
+		
+		tarea= new TimerTask() {
+			@Override 
+			public void run() {
+				//La tarea en el temporizador es poner el label de accion a null
+				jl.setIcon(null);
+			}
+		};
+		//Se ejecuta la tarea en velmil(tiempo)
+		timer= new Timer();
+		timer.schedule(tarea, velmil);
+	}
+	
+	/* CREAR METODO DE TURNO CONTRINCANTE*/
 }

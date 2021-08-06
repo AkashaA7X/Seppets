@@ -59,7 +59,5 @@ public class Personajes {
 	public int getAtaque() {
 		return ataque;
 	}
-	
-	
 
 }

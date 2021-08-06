@@ -53,14 +53,12 @@ public class Principal {
 
 	}
 
-	// metodo seleccion de label ( la imagen cambia al pulsarla), junto con nuevas
-	// mecanicas de seleccion
+	// metodo seleccion de label ( la imagen cambia al pulsarla), junto con nuevas mecanicas de seleccion
 	static boolean press = true;
 
 	public static boolean seleccionar(String imgInicial, JLabel lbl) {
 
-		// Cuando se selecciona un personaje se desmarca los personajes anteriormente
-		// clickeados
+		// Cuando se selecciona un personaje se desmarca los personajes anteriormente clickeados
 		if (press == true) {
 			press = false;
 			ImageIcon imgSinPress = new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgInicial + ".jpg"));

@@ -4,7 +4,10 @@ import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,6 +17,13 @@ import javax.swing.JButton;
 
 public class MenuPrincipal extends JFrame {
 
+	/* Labels de opciones*/
+	private JLabel lblDesOpciones;
+	private JLabel lblVolumen;
+	//private JSlider jsVol;
+	private JLabel lblVolver;
+	private int vol;
+	
 	Fuentes tipoFuente;
 	private JPanel menuPrincipal;
 	static boolean clickBoton=false;
@@ -34,6 +44,37 @@ public class MenuPrincipal extends JFrame {
 		ImageIcon imgOpc = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 		ImageIcon imgTit = new ImageIcon(MenuPrincipal.class.getResource("/img/titulo.jpg"));
 		ImageIcon imgSalir = new ImageIcon(MenuPrincipal.class.getResource("/img/salir.jpg"));
+		ImageIcon imgFondoO = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
+		
+		/* LABEL VOLUMEN*/
+		lblVolumen =new JLabel("Volumen");
+		lblVolumen.setBounds(297, 211, 140, 28);
+		lblVolumen.setVisible(false);
+		lblVolumen.setForeground(Color.WHITE);
+		lblVolumen.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+		menuPrincipal.add(lblVolumen);
+		
+		
+		/* LABEL VOLVER*/
+		lblVolver =new JLabel("Volver");
+		lblVolver.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				activarOpciones(false);
+			}
+		});
+		lblVolver.setBounds(297, 390, 115, 28);
+		lblVolver.setVisible(false);
+		lblVolver.setForeground(Color.WHITE);
+		lblVolver.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+		menuPrincipal.add(lblVolver);
+		
+		/* LABEL DESPLIEGUE OPCIONES*/
+		lblDesOpciones = new JLabel("Menu Opciones");
+		lblDesOpciones.setBounds(254, 79, 441, 360);
+		lblDesOpciones.setVisible(false);
+		Principal.escalarImagen(imgFondoO, lblDesOpciones);
+		menuPrincipal.add(lblDesOpciones);
 		
 		/*LABEL TITULO*/
 		JLabel lblTitulo = new JLabel("titulo");
@@ -59,7 +100,6 @@ public class MenuPrincipal extends JFrame {
 		lblJugar.setBounds(32, 151, 269, 71);
 		lblJugar.setForeground(Color.WHITE);
 		lblJugar.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
-		//Principal.escalarImagen(imgJugar,lblJugar);
 		menuPrincipal.add(lblJugar);
 		
 		/*LABEL OPCIONES*/
@@ -68,11 +108,15 @@ public class MenuPrincipal extends JFrame {
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			Principal.sound("boton",false);
-		}});
+		}			
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			activarOpciones(true);
+		}
+});
 		lblOpciones.setBounds(32, 270, 318, 71);
 		lblOpciones.setForeground(Color.WHITE);
 		lblOpciones.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
-		//Principal.escalarImagen(imgOpc,lblOpciones);
 		menuPrincipal.add(lblOpciones);
 		
 		/*LABEL SALIR*/
@@ -91,9 +135,7 @@ public class MenuPrincipal extends JFrame {
 		lblSalir.setBounds(32, 393, 269, 71);
 		lblSalir.setForeground(Color.WHITE);
 		lblSalir.setFont(tipoFuente.fuente(tipoFuente.adumu,60));
-		//Principal.escalarImagen(imgSalir,lblSalir);
 		menuPrincipal.add(lblSalir);
-		
 		
 		
 		/*LABEL FONDO*/
@@ -106,6 +148,13 @@ public class MenuPrincipal extends JFrame {
 	
 	public boolean getClickBoton() {
 		return clickBoton;
+	}
+	
+	public void activarOpciones(boolean activar) {
+		this.lblDesOpciones.setVisible(activar);
+		this.lblVolumen.setVisible(activar);
+		//this.jsVol.setVisible(activar);
+		this.lblVolver.setVisible(activar);
 	}
 	
 }
