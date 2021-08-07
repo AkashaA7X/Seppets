@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-public class prueba extends JFrame {
+public class PruebaInterfaz extends JFrame {
 	
 	private static JLabel lblJugar;
 	private static JLabel lblOpcion;
 	
-	public prueba() {
+	public PruebaInterfaz() {
 		ImageIcon imgM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
 		//ImageIcon imgM = new ImageIcon(MenuPrincipal.class.getResource("/img/.jpg"));
 		getContentPane().setLayout(null);
