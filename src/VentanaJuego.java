@@ -25,17 +25,17 @@ public class VentanaJuego extends JFrame {
 	public static JLabel lblCelmo,lblCgustavo,lblCgalleta,lblCpeggy,lblCgonzo,lblCcaponata,lblCanimal,lblCepiblas,lblCmimimi,lblCcoco,lblCcrazyHarry,lblCgruñon;
 	public static Personajes[] personajes={
 			new Personajes("Elmo",60,35),
-			new Personajes("Galletas",45,45),
+			new Personajes("Galletas",50,40),
 			new Personajes("Caponata",80,35),
 			new Personajes("EpiBlas",100,25),
 			new Personajes("Coco",60,40),
 			new Personajes("Gruñon",100,30),
-			new Personajes("Gustavo",50,55),
-			new Personajes("Peggy",60,55),
-			new Personajes("Gonzo",40,55),
-			new Personajes("Animal",30,70),
+			new Personajes("Gustavo",55,40),
+			new Personajes("Peggy",60,45),
+			new Personajes("Gonzo",40,38),
+			new Personajes("Animal",70,30),
 			new Personajes("Mimimi",80,30),
-			new Personajes("CrazyHarry",20,75)};
+			new Personajes("CrazyHarry",25,45)};
 	
 	public static Personajes personajeElegido=new Personajes("");
 	

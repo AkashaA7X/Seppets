@@ -97,19 +97,19 @@ public class Batalla extends JFrame {
 			ImageIcon imgPersonaje = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombre));
 			
 			String nombreActGif ="P"+ VentanaJuego.getPersonaje().toLowerCase()+"Act.gif";
-			System.out.println(nombreActGif);
+			//System.out.println(nombreActGif);
 			ImageIcon imgPersonajeAct = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreActGif));
 			
 			String nombreDefGif ="P"+ VentanaJuego.getPersonaje().toLowerCase()+"Def.gif";
-			System.out.println(nombreDefGif);
+			//System.out.println(nombreDefGif);
 			ImageIcon imgPersonajeDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGif));
 			
 			String nombreActGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Act.gif";
-			System.out.println("Nombre imgAct Contrincante: "+nombreActGifC);
+			//System.out.println("Nombre imgAct Contrincante: "+nombreActGifC);
 			ImageIcon imgContrincanteAct = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreActGifC));
 			
 			String nombreDefGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Def.gif";
-			System.out.println("Nombre imgDef Contrincante: "+nombreDefGifC);
+			//System.out.println("Nombre imgDef Contrincante: "+nombreDefGifC);
 			ImageIcon imgContrincanteDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGifC));
 			
 			/* LABEL VOLUMEN*/
@@ -302,39 +302,31 @@ public class Batalla extends JFrame {
 					
 					cambiarImgTimer(lblPersonajeAcc, 3, imgPersonajeAct);
 					
-					//int dPer = VentanaJuego.personajes[inxP].getDefensa();
 					int dCon = VentanaJuego.personajes[inxC].getDefensa();
-					//int vPer = VentanaJuego.personajes[inxP].getVida();
 					int vCon = VentanaJuego.personajes[inxC].getVida();
 					System.out.println("Defensa contrincante: "+dCon);
 					// Se le modifica al personaje contrincante su defensa, restandole el ataque del personaje
-					if (dCon >= 0) {
+					if (dCon > 0) {
 						int dConNew = dCon - VentanaJuego.personajes[inxP].getAtaque();
-						VentanaJuego.personajes[inxC].setDefensa(dCon - VentanaJuego.personajes[inxP].getAtaque());
-						barraDCon.setValue(dConNew);
+						//VentanaJuego.personajes[inxC].setDefensa(dCon - VentanaJuego.personajes[inxP].getAtaque());
+						if(dConNew <=0) {
+							VentanaJuego.personajes[inxC].setDefensa(0);
+							barraDCon.setValue(VentanaJuego.personajes[inxC].getDefensa());
+						}else {
+							VentanaJuego.personajes[inxC].setDefensa(dConNew);
+							barraDCon.setValue(VentanaJuego.personajes[inxC].getDefensa());
+						}
+						
 					}else if(dCon<=0){
-						VentanaJuego.personajes[inxC].setDefensa(0);
-						barraDCon.setValue(0);
 						System.out.println("El ataque del personaje afecta a la vida del contrincante");
 						int vConNew = vCon - VentanaJuego.personajes[inxP].getAtaque();
-						VentanaJuego.personajes[inxC].setVida(vCon - VentanaJuego.personajes[inxP].getAtaque());
-						barraVCon.setValue(vConNew);
+						//VentanaJuego.personajes[inxC].setVida(vCon - VentanaJuego.personajes[inxP].getAtaque());
+						VentanaJuego.personajes[inxC].setVida(vConNew);
+						barraVCon.setValue(VentanaJuego.personajes[inxC].getVida());
 					}
 					
-					//Turno del contrincante PENDIENTE
+					//Turno del contrincante 
 					accContrincante(lblContrincanteAcc);
-//					cambiarImgTimer(lblContrincanteAcc,3,imgContrincanteAct);
-//					if(dPer >0) {
-//						int dPerNew = dPer-VentanaJuego.personajes[inxC].getAtaque();
-//						VentanaJuego.personajes[inxP].setDefensa(dPer -VentanaJuego.personajes[inxC].getAtaque());
-//						barraDPer.setValue(dPerNew);
-//					}else {
-//						barraDPer.setValue(0);
-//						System.out.println("El ataque del contrincante afecta a la vida");
-//						int vPerNew= vPer-VentanaJuego.personajes[inxC].getAtaque();
-//						VentanaJuego.personajes[inxP].setVida(vPer-VentanaJuego.personajes[inxC].getAtaque());
-//						barraVPer.setValue(vPerNew);
-//					}
 				}
 			});
 			lblAtaque.setBounds(71, 450, 85, 80);
@@ -355,11 +347,8 @@ public class Batalla extends JFrame {
 					VentanaJuego.personajes[inxP].setDefensa(VentanaJuego.personajes[inxP].getDefensa()+defFal/2);
 					barraDPer.setValue(barraDPer.getValue()+defFal/2);
 					
-					//Turno del contrincante PENDIENTE
+					//Turno del contrincante 
 					accContrincante(lblContrincanteAcc);
-//					cambiarImgTimer(lblContrincanteAcc,2,imgContrincanteDef);
-//					System.out.println("Defensa contrincante actual: "+barraDCon.getValue());
-//					barraDCon.setValue(100-barraDCon.getValue()/2);
 				}
 			});
 			lblDefensa.setBounds(208, 450, 85, 80);
@@ -473,14 +462,19 @@ public class Batalla extends JFrame {
 			cambiarImgTimer(lblContrincanteAcc,3,imgContrincanteAct);
 			if(dPer >0) {
 				int dPerNew = dPer-VentanaJuego.personajes[inxC].getAtaque();
-				VentanaJuego.personajes[inxP].setDefensa(dPer -VentanaJuego.personajes[inxC].getAtaque());
-				barraDPer.setValue(dPerNew);
-			}else {
-				barraDPer.setValue(0);
+				
+				if(dPerNew <=0) {
+					VentanaJuego.personajes[inxP].setDefensa(0);
+					barraDPer.setValue(VentanaJuego.personajes[inxP].getDefensa());
+				}else {
+					VentanaJuego.personajes[inxP].setDefensa(dPerNew);
+					barraDPer.setValue(VentanaJuego.personajes[inxP].getDefensa());
+				}
+			}else if(dPer <=0){
 				System.out.println("El ataque del contrincante afecta a la vida");
 				int vPerNew= vPer-VentanaJuego.personajes[inxC].getAtaque();
-				VentanaJuego.personajes[inxP].setVida(vPer-VentanaJuego.personajes[inxC].getAtaque());
-				barraVPer.setValue(vPerNew);
+				VentanaJuego.personajes[inxP].setVida(vPerNew);
+				barraVPer.setValue(VentanaJuego.personajes[inxP].getVida());
 			}
 			break;
 		case 1:
@@ -491,10 +485,12 @@ public class Batalla extends JFrame {
 			ImageIcon imgContrincanteDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGifC));
 			
 			cambiarImgTimer(lblContrincanteAcc,2,imgContrincanteDef);
+			
 			System.out.println("Defensa contrincante actual: "+ VentanaJuego.personajes[inxC].getDefensa());
-			VentanaJuego.personajes[inxC].setDefensa(100-VentanaJuego.personajes[inxC].getDefensa()/2);
-			barraDCon.setValue(100-VentanaJuego.personajes[inxC].getDefensa()/2);
-			//barraDCon.setValue(100-barraDCon.getValue()/2);
+			int defFal=100-VentanaJuego.personajes[inxC].getDefensa();
+			System.out.println("Defensa contrincante faltante: "+defFal);
+			VentanaJuego.personajes[inxC].setDefensa(VentanaJuego.personajes[inxC].getDefensa()+defFal/2);
+			barraDCon.setValue(VentanaJuego.personajes[inxC].getDefensa());
 			break;
 		case 2:
 			System.out.println("CONTRINCANTE USO: CURAR");
