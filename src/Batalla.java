@@ -45,7 +45,8 @@ public class Batalla extends JFrame {
 	private JSlider jsVol;
 	private JLabel lblVolver;
 	private int vol;
-	private JLabel lblNewLabel;
+	private JLabel lblHasPerdido,lblHasGanado,lblHasGanadoSalir,lblHasGanadoContinuar;
+	private JLabel lblNombreC,lblContrincante;
 	
 	public Batalla() {
 		setTitle("Seppets");
@@ -74,11 +75,12 @@ public class Batalla extends JFrame {
 			ImageIcon imgCurar = new ImageIcon(MenuPrincipal.class.getResource("/img/pocion.jpg"));
 			ImageIcon imgFondoO = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 			ImageIcon imgFondoM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
+			ImageIcon imgHasPerdido = new ImageIcon(MenuPrincipal.class.getResource("/img/HasPerdido.gif"));
+			ImageIcon imgHasGanado = new ImageIcon(MenuPrincipal.class.getResource("/img/HasGanado.gif"));
 			
 			/* COLOCAR CONTRINCANTE */
 			String imgC = "";
 			inxC = 12;
-			//int 
 			inxP = VentanaJuego.getInx(VentanaJuego.getPersonaje());
 			System.out.println("Inx del personaje: " + inxP);
 
@@ -111,6 +113,57 @@ public class Batalla extends JFrame {
 			String nombreDefGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Def.gif";
 			//System.out.println("Nombre imgDef Contrincante: "+nombreDefGifC);
 			ImageIcon imgContrincanteDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGifC));
+			
+			/* LABEL HAS GANADO CONTINUAR */ 
+			lblHasGanadoContinuar = new JLabel("CONTINUAR");
+			lblHasGanadoContinuar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					continuar(sonido,lblNombreC,lblContrincante,barraVCon,barraDCon);
+				}
+			});
+			lblHasGanadoContinuar.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHasGanadoContinuar.setBounds(725, 478, 200, 52);
+			lblHasGanadoContinuar.setVisible(false);
+			lblHasGanadoContinuar.setForeground(Color.WHITE);
+			lblHasGanadoContinuar.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+			batalla.add(lblHasGanadoContinuar);
+			
+			/* LABEL HAS GANADO SALIR */ 
+			lblHasGanadoSalir = new JLabel("SALIR");
+			lblHasGanadoSalir.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					VentanaJuego.crearPersonajes();
+					sonido.stop();
+					dispose();
+					MenuPrincipal m = new MenuPrincipal();
+					m.setVisible(true);
+				}
+			});
+			lblHasGanadoSalir.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHasGanadoSalir.setBounds(39, 478, 179, 52);
+			lblHasGanadoSalir.setVisible(false);
+			lblHasGanadoSalir.setForeground(Color.WHITE);
+			lblHasGanadoSalir.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
+			batalla.add(lblHasGanadoSalir);
+			
+			
+			/* LABEL HAS GANADO */ 
+			lblHasGanado = new JLabel("HAS GANADO");
+			lblHasGanado.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHasGanado.setBounds(0, 0, 980, 557);
+			lblHasGanado.setVisible(false);
+			lblHasGanado.setIcon(imgHasGanado);
+			batalla.add(lblHasGanado);
+			
+			/* LABEL HAS PERDIDO */ 
+			lblHasPerdido = new JLabel("HAS PERDIDO");
+			lblHasPerdido.setHorizontalAlignment(SwingConstants.CENTER);
+			lblHasPerdido.setBounds(0, 0, 980, 557);
+			lblHasPerdido.setVisible(false);
+			lblHasPerdido.setIcon(imgHasPerdido);
+			batalla.add(lblHasPerdido);
 			
 			/* LABEL VOLUMEN*/
 			lblVolumen =new JLabel("Volumen");
@@ -222,7 +275,7 @@ public class Batalla extends JFrame {
 			lblNombreP.setForeground(Color.BLACK);
 			lblNombreP.setBackground(Color.DARK_GRAY);
 			lblNombreP.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
-			lblNombreP.setBounds(26, 28, 219, 28);
+			lblNombreP.setBounds(26, 28, 219, 51);
 			batalla.add(lblNombreP);
 
 			/* LABEL IMAGEN PERSONAJE ACCION*/
@@ -263,16 +316,18 @@ public class Batalla extends JFrame {
 			batalla.add(barraDPer);
 
 			/* LABEL NOMBRE CONTRINCANTE */
-			JLabel lblNombreC = new JLabel(VentanaJuego.personajes[inxC].getNombre());
+			//JLabel 
+			lblNombreC = new JLabel(VentanaJuego.personajes[inxC].getNombre());
 			lblNombreC.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNombreC.setForeground(Color.BLACK);
 			lblNombreC.setBackground(Color.DARK_GRAY);
 			lblNombreC.setFont(tipoFuente.fuente(tipoFuente.adumu, 30));
-			lblNombreC.setBounds(573, 21, 225, 35);
+			lblNombreC.setBounds(573, 21, 225, 58);
 			batalla.add(lblNombreC);
 
 			/* LABEL IMAGEN CONTRINCANTE */
-			JLabel lblContrincante = new JLabel("Contrincante");
+			//JLabel 
+			lblContrincante = new JLabel("Contrincante");
 			ImageIcon imgContrincante = new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgC));
 			lblContrincante.setBounds(490, 90, 469, 315);
 			Principal.escalarImagen(imgContrincante, lblContrincante);
@@ -320,9 +375,15 @@ public class Batalla extends JFrame {
 					}else if(dCon<=0){
 						System.out.println("El ataque del personaje afecta a la vida del contrincante");
 						int vConNew = vCon - VentanaJuego.personajes[inxP].getAtaque();
-						//VentanaJuego.personajes[inxC].setVida(vCon - VentanaJuego.personajes[inxP].getAtaque());
-						VentanaJuego.personajes[inxC].setVida(vConNew);
-						barraVCon.setValue(VentanaJuego.personajes[inxC].getVida());
+						if(vConNew <= 0) {
+							//El personaje ha ganado
+							hasGanado(lblHasGanado, lblHasGanadoSalir, lblHasGanadoContinuar);
+							//lblHasGanado.setVisible(true);
+							//inxC=inxC+1;
+						}else {
+							VentanaJuego.personajes[inxC].setVida(vConNew);
+							barraVCon.setValue(VentanaJuego.personajes[inxC].getVida());
+						}
 					}
 					
 					//Turno del contrincante 
@@ -369,9 +430,8 @@ public class Batalla extends JFrame {
 						System.out.println("Pocion utilizada: +50 vida");
 						barraVPer.setValue(barraVPer.getValue()+50);
 					}
-					
-					accContrincante(lblPersonajeAcc);
-					
+					//Turno del contrincante
+					accContrincante(lblContrincanteAcc);
 				}
 			});
 			lblCurar.setBounds(374, 450, 85, 80);
@@ -473,6 +533,10 @@ public class Batalla extends JFrame {
 			}else if(dPer <=0){
 				System.out.println("El ataque del contrincante afecta a la vida");
 				int vPerNew= vPer-VentanaJuego.personajes[inxC].getAtaque();
+				if(vPerNew <=0) {
+					//El personaje ha perdido
+					hasPerdido(lblHasPerdido, lblHasGanadoSalir);
+				}
 				VentanaJuego.personajes[inxP].setVida(vPerNew);
 				barraVPer.setValue(VentanaJuego.personajes[inxP].getVida());
 			}
@@ -510,6 +574,41 @@ public class Batalla extends JFrame {
 					
 			}
 			break;
-		}
+		}	
+	}
+	
+	//METODO HAS GANADO, activa la visibilidad del gif, botones de continuar y salir, y prepara la siguiente batalla, incrementando +1 el inxC
+	public void hasGanado(JLabel lblImgGanar,JLabel lblImgSalir,JLabel lblImgContinuar) {
+		//Se activa gif has ganado y botones
+		lblImgGanar.setVisible(true);
+		lblImgSalir.setVisible(true);
+		lblImgContinuar.setVisible(true);
+		//Se incrementa el indice del personaje
+		inxC++;
+		
+	}
+	
+	//METODO HAS PERDIDO, activa la visibilidad del gif, boton de salir, y vuelve a la pantalla de inicio
+	public void hasPerdido(JLabel lblImgPerder,JLabel lblImgSalir) {
+		//Se activa gif has perdido y botones
+		lblImgPerder.setVisible(true);
+		lblImgSalir.setVisible(true);	
+	}
+	
+	
+	//METODO CONTINUAR
+	public void continuar(Clip sonido,JLabel lblNombreContrincante,JLabel imgContrincante,JProgressBar barraVidaContrincante,JProgressBar barraDefensaContrincante) {
+		String imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
+		lblHasGanado.setVisible(false);
+		lblHasGanadoSalir.setVisible(false);
+		lblHasGanadoContinuar.setVisible(false);
+		sonido.stop();
+		System.out.println("indice contrincante nuevo: "+inxC);
+		lblNombreContrincante.setText(VentanaJuego.personajes[inxC].getNombre());
+		ImageIcon imgCon= new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgC));
+		Principal.escalarImagen(imgCon, imgContrincante);
+		
+		barraVidaContrincante.setValue(VentanaJuego.personajes[inxC].getVida());
+		barraDefensaContrincante.setValue(VentanaJuego.personajes[inxC].getDefensa());
 	}
 }

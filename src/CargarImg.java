@@ -12,6 +12,7 @@ public class CargarImg {
 	/*VENTANA BATALLA PERSONAJES ATACANDO*/
 	public static ImageIcon imgElmoAct = new ImageIcon(MenuPrincipal.class.getResource("/img/PelmoAct.gif"));
 	public static ImageIcon imgGustavoAct = new ImageIcon(MenuPrincipal.class.getResource("/img/PgustavoAct.gif"));
+	public static ImageIcon imgHasPerdido = new ImageIcon(MenuPrincipal.class.getResource("/img/HasPerdido.gif"));
 	/*VENTANA BATALLA CURAR */
 	public static ImageIcon imgCurarAcc = new ImageIcon(MenuPrincipal.class.getResource("/img/curar.gif"));
 }

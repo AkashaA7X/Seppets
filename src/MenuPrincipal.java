@@ -40,10 +40,7 @@ public class MenuPrincipal extends JFrame {
 		
 		/*CARGAR IMAGENES*/
 		ImageIcon imgFondo = new ImageIcon(MenuPrincipal.class.getResource("/img/fondoJuego.jpg"));
-		ImageIcon imgJugar = new ImageIcon(MenuPrincipal.class.getResource("/img/jugar.jpg"));
-		ImageIcon imgOpc = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 		ImageIcon imgTit = new ImageIcon(MenuPrincipal.class.getResource("/img/titulo.jpg"));
-		ImageIcon imgSalir = new ImageIcon(MenuPrincipal.class.getResource("/img/salir.jpg"));
 		ImageIcon imgFondoO = new ImageIcon(MenuPrincipal.class.getResource("/img/opciones.jpg"));
 		
 		/* LABEL VOLUMEN*/
@@ -153,7 +150,6 @@ public class MenuPrincipal extends JFrame {
 	public void activarOpciones(boolean activar) {
 		this.lblDesOpciones.setVisible(activar);
 		this.lblVolumen.setVisible(activar);
-		//this.jsVol.setVisible(activar);
 		this.lblVolver.setVisible(activar);
 	}
 	

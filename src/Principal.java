@@ -37,7 +37,7 @@ public class Principal {
 		jb.setIcon(iconoEscalado);
 	}
 
-	// metodo que reproduce un sonido del paquete WAV
+	// Metodo que reproduce un sonido del paquete WAV
 	public static void sound(String nombreArchivo, boolean repetir) {
 		try {
 			String ruta = "src/sounds/" + nombreArchivo + ".wav";
@@ -53,7 +53,7 @@ public class Principal {
 
 	}
 
-	// metodo seleccion de label ( la imagen cambia al pulsarla), junto con nuevas mecanicas de seleccion
+	// Metodo seleccion de label ( la imagen cambia al pulsarla), junto con nuevas mecanicas de seleccion
 	static boolean press = true;
 
 	public static boolean seleccionar(String imgInicial, JLabel lbl) {

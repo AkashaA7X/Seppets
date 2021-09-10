@@ -408,7 +408,6 @@ public class VentanaJuego extends JFrame {
 			lblConfirmar.setBounds(43, 473, 236, 73);
 			lblConfirmar.setForeground(Color.WHITE);
 			lblConfirmar.setFont(tipoFuente.fuente(tipoFuente.adumu, 40));
-			//Principal.escalarImagen(imgConfirmar, lblConfirmar);
 			Juego.add(lblConfirmar);
 
 			/* LABEL FONDO */
