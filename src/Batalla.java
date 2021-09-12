@@ -30,7 +30,6 @@ public class Batalla extends JFrame {
 
 	//private JPanel menu;
 	private JPanel batalla;
-	private boolean gana;
 	private int inxC,inxP;
 	private JProgressBar barraDCon,barraVCon,barraDPer,barraVPer;
 	Fuentes tipoFuente;
@@ -45,8 +44,17 @@ public class Batalla extends JFrame {
 	private JSlider jsVol;
 	private JLabel lblVolver;
 	private int vol;
-	private JLabel lblHasPerdido,lblHasGanado,lblHasGanadoSalir,lblHasGanadoContinuar;
+	
+	/*LABELS CONTINUADOR DE CONTRINCANTE*/
+	private JLabel lblHasPerdido,lblHasGanado,lblHasGanadoSalir,lblHasGanadoContinuar,lblCreditos;
 	private JLabel lblNombreC,lblContrincante;
+	
+	/*CAMBIADOR DE SONIDOS*/
+	private String ruta;
+	private AudioInputStream audio;
+	private Clip sonido;
+	private FloatControl controlVolumen;
+	private int cont=0;
 	
 	public Batalla() {
 		setTitle("Seppets");
@@ -60,11 +68,11 @@ public class Batalla extends JFrame {
 
 		/* CARGAR MUSICA DE FONDO */
 		try {
-			String ruta = "src/sounds/fondoBatalla1.wav";
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
-			Clip sonido = AudioSystem.getClip();
+			ruta = "src/sounds/fondoBatalla1.wav";
+			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			sonido = AudioSystem.getClip();
 			sonido.open(audio);
-			FloatControl controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
+			controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
 
@@ -77,6 +85,7 @@ public class Batalla extends JFrame {
 			ImageIcon imgFondoM = new ImageIcon(MenuPrincipal.class.getResource("/img/menu.jpg"));
 			ImageIcon imgHasPerdido = new ImageIcon(MenuPrincipal.class.getResource("/img/HasPerdido.gif"));
 			ImageIcon imgHasGanado = new ImageIcon(MenuPrincipal.class.getResource("/img/HasGanado.gif"));
+			ImageIcon imgCreditos = new ImageIcon(MenuPrincipal.class.getResource("/img/creditos.gif"));
 			
 			/* COLOCAR CONTRINCANTE */
 			String imgC = "";
@@ -106,20 +115,12 @@ public class Batalla extends JFrame {
 			//System.out.println(nombreDefGif);
 			ImageIcon imgPersonajeDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGif));
 			
-			String nombreActGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Act.gif";
-			//System.out.println("Nombre imgAct Contrincante: "+nombreActGifC);
-			ImageIcon imgContrincanteAct = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreActGifC));
-			
-			String nombreDefGifC="P"+VentanaJuego.personajes[inxC].getNombre().toLowerCase()+"Def.gif";
-			//System.out.println("Nombre imgDef Contrincante: "+nombreDefGifC);
-			ImageIcon imgContrincanteDef = new ImageIcon(MenuPrincipal.class.getResource("/img/" + nombreDefGifC));
-			
 			/* LABEL HAS GANADO CONTINUAR */ 
 			lblHasGanadoContinuar = new JLabel("CONTINUAR");
 			lblHasGanadoContinuar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					continuar(sonido,lblNombreC,lblContrincante,barraVCon,barraDCon);
+					continuar(lblNombreC,lblContrincante,barraVCon,barraDCon);
 				}
 			});
 			lblHasGanadoContinuar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,6 +149,13 @@ public class Batalla extends JFrame {
 			lblHasGanadoSalir.setFont(tipoFuente.fuente(tipoFuente.adumu, 28));
 			batalla.add(lblHasGanadoSalir);
 			
+			/* LABEL CREDITOS */
+			lblCreditos = new JLabel("CREDITOS");
+			lblCreditos.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCreditos.setBounds(0, 0, 980, 557);
+			lblCreditos.setVisible(false);
+			lblCreditos.setIcon(imgCreditos);
+			batalla.add(lblCreditos);
 			
 			/* LABEL HAS GANADO */ 
 			lblHasGanado = new JLabel("HAS GANADO");
@@ -298,7 +306,6 @@ public class Batalla extends JFrame {
 
 			
 			/* BARRA DE VIDA PERSONAJE */
-			//JProgressBar 
 			barraVPer = new JProgressBar();
 			barraVPer.setValue(VentanaJuego.personajeElegido.getVida());
 			barraVPer.setForeground(Color.RED);
@@ -307,7 +314,6 @@ public class Batalla extends JFrame {
 			batalla.add(barraVPer);
 
 			/* BARRA DEFENSA PERSONAJE */
-			//JProgressBar 
 			barraDPer = new JProgressBar();
 			barraDPer.setValue(VentanaJuego.personajeElegido.getDefensa());
 			barraDPer.setStringPainted(true);
@@ -316,7 +322,6 @@ public class Batalla extends JFrame {
 			batalla.add(barraDPer);
 
 			/* LABEL NOMBRE CONTRINCANTE */
-			//JLabel 
 			lblNombreC = new JLabel(VentanaJuego.personajes[inxC].getNombre());
 			lblNombreC.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNombreC.setForeground(Color.BLACK);
@@ -326,7 +331,6 @@ public class Batalla extends JFrame {
 			batalla.add(lblNombreC);
 
 			/* LABEL IMAGEN CONTRINCANTE */
-			//JLabel 
 			lblContrincante = new JLabel("Contrincante");
 			ImageIcon imgContrincante = new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgC));
 			lblContrincante.setBounds(490, 90, 469, 315);
@@ -363,7 +367,6 @@ public class Batalla extends JFrame {
 					// Se le modifica al personaje contrincante su defensa, restandole el ataque del personaje
 					if (dCon > 0) {
 						int dConNew = dCon - VentanaJuego.personajes[inxP].getAtaque();
-						//VentanaJuego.personajes[inxC].setDefensa(dCon - VentanaJuego.personajes[inxP].getAtaque());
 						if(dConNew <=0) {
 							VentanaJuego.personajes[inxC].setDefensa(0);
 							barraDCon.setValue(VentanaJuego.personajes[inxC].getDefensa());
@@ -378,16 +381,16 @@ public class Batalla extends JFrame {
 						if(vConNew <= 0) {
 							//El personaje ha ganado
 							hasGanado(lblHasGanado, lblHasGanadoSalir, lblHasGanadoContinuar);
-							//lblHasGanado.setVisible(true);
-							//inxC=inxC+1;
 						}else {
 							VentanaJuego.personajes[inxC].setVida(vConNew);
 							barraVCon.setValue(VentanaJuego.personajes[inxC].getVida());
+							//Turno del contrincante en caso de que no haya ganado la partida
+							accContrincante(lblContrincanteAcc);
 						}
 					}
 					
 					//Turno del contrincante 
-					accContrincante(lblContrincanteAcc);
+					//accContrincante(lblContrincanteAcc);
 				}
 			});
 			lblAtaque.setBounds(71, 450, 85, 80);
@@ -585,7 +588,19 @@ public class Batalla extends JFrame {
 		lblImgContinuar.setVisible(true);
 		//Se incrementa el indice del personaje
 		inxC++;
-		
+		//SONIDO
+		sonido.stop();
+		sonido.close();
+		ruta="src/sounds/FondoHasGanado.wav";
+		try {
+			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			sonido = AudioSystem.getClip();
+			sonido.open(audio);
+			sonido.start();
+			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//METODO HAS PERDIDO, activa la visibilidad del gif, boton de salir, y vuelve a la pantalla de inicio
@@ -593,22 +608,80 @@ public class Batalla extends JFrame {
 		//Se activa gif has perdido y botones
 		lblImgPerder.setVisible(true);
 		lblImgSalir.setVisible(true);	
+		//SONIDO
+		sonido.stop();
+		sonido.close();
+		ruta="src/sounds/FondoHasPerdido.wav";
+		try {
+			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			sonido = AudioSystem.getClip();
+			//CORREGIR CONTROL VOLUMEN
+			//controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
+			sonido.open(audio);
+			sonido.start();
+			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
 	//METODO CONTINUAR
-	public void continuar(Clip sonido,JLabel lblNombreContrincante,JLabel imgContrincante,JProgressBar barraVidaContrincante,JProgressBar barraDefensaContrincante) {
+	public void continuar(JLabel lblNombreContrincante,JLabel imgContrincante,JProgressBar barraVidaContrincante,JProgressBar barraDefensaContrincante) {
 		String imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
 		lblHasGanado.setVisible(false);
 		lblHasGanadoSalir.setVisible(false);
 		lblHasGanadoContinuar.setVisible(false);
-		sonido.stop();
-		System.out.println("indice contrincante nuevo: "+inxC);
-		lblNombreContrincante.setText(VentanaJuego.personajes[inxC].getNombre());
-		ImageIcon imgCon= new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgC));
-		Principal.escalarImagen(imgCon, imgContrincante);
 		
-		barraVidaContrincante.setValue(VentanaJuego.personajes[inxC].getVida());
-		barraDefensaContrincante.setValue(VentanaJuego.personajes[inxC].getDefensa());
+		//SONIDO
+		cont++;
+		sonido.stop();
+		sonido.close();
+		switch(cont) {
+		case 1:
+			ruta="src/sounds/FondoBatalla2.wav";
+			break;
+		case 2:
+			System.out.println("Activar ruta 3");
+			ruta="src/sounds/FondoBatalla3.wav";
+			break;
+		case 3:
+			System.out.println("Activar ruta 3");
+			ruta="src/sounds/FondoBatalla4.wav";
+			break;
+		case 4:
+			ruta="src/sounds/FondoBatalla5.wav";
+			break;
+		case 5: 
+			ruta="src/sounds/FondoBatallaFinal.wav";
+			break;
+		case 6: 
+			//HA GANADO EL JUEGO
+			ruta="src/sounds/FondoCreditos.wav";
+			lblCreditos.setVisible(true);
+			lblHasGanadoSalir.setVisible(true);
+			break;
+		}
+		
+		try {
+			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			sonido = AudioSystem.getClip();
+			//CORREGIR CONTROL VOLUMEN
+			//controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
+			sonido.open(audio);
+			sonido.start();
+			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		if(cont!=6) {
+			System.out.println("indice contrincante nuevo: "+inxC);
+			lblNombreContrincante.setText(VentanaJuego.personajes[inxC].getNombre());
+			ImageIcon imgCon= new ImageIcon(MenuPrincipal.class.getResource("/img/" + imgC));
+			Principal.escalarImagen(imgCon, imgContrincante);
+		
+			barraVidaContrincante.setValue(VentanaJuego.personajes[inxC].getVida());
+			barraDefensaContrincante.setValue(VentanaJuego.personajes[inxC].getDefensa());
+		}
 	}
 }
