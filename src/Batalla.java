@@ -45,6 +45,9 @@ public class Batalla extends JFrame {
 	private JLabel lblVolver;
 	private int vol;
 	
+	/*LABELS ACCIONES PERSONAJE*/
+	private JLabel lblAtaque,lblDefensa,lblCurar;
+	
 	/*LABELS CONTINUADOR DE CONTRINCANTE*/
 	private JLabel lblHasPerdido,lblHasGanado,lblHasGanadoSalir,lblHasGanadoContinuar,lblCreditos;
 	private JLabel lblNombreC,lblContrincante;
@@ -354,7 +357,7 @@ public class Batalla extends JFrame {
 			batalla.add(barraDCon);
 
 			/* LABEL ATACAR */
-			JLabel lblAtaque = new JLabel("Ataque");
+			lblAtaque = new JLabel("Ataque");
 			lblAtaque.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -398,7 +401,7 @@ public class Batalla extends JFrame {
 			batalla.add(lblAtaque);
 
 			/* LABEL ESCUDO */
-			JLabel lblDefensa = new JLabel("Defensa");
+			lblDefensa = new JLabel("Defensa");
 			lblDefensa.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -420,7 +423,7 @@ public class Batalla extends JFrame {
 			batalla.add(lblDefensa);
 
 			/* LABEL CURAR */
-			JLabel lblCurar = new JLabel("Curar");
+			lblCurar = new JLabel("Curar");
 			lblCurar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -582,6 +585,10 @@ public class Batalla extends JFrame {
 	
 	//METODO HAS GANADO, activa la visibilidad del gif, botones de continuar y salir, y prepara la siguiente batalla, incrementando +1 el inxC
 	public void hasGanado(JLabel lblImgGanar,JLabel lblImgSalir,JLabel lblImgContinuar) {
+		//Se desactivan los labels de accion del personaje
+		lblAtaque.setVisible(false);
+		lblDefensa.setVisible(false);
+		lblCurar.setVisible(false);
 		//Se activa gif has ganado y botones
 		lblImgGanar.setVisible(true);
 		lblImgSalir.setVisible(true);
@@ -596,14 +603,22 @@ public class Batalla extends JFrame {
 			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			sonido = AudioSystem.getClip();
 			sonido.open(audio);
+			controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+			//Controlador de volumen
+			jsVol.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					vol=jsVol.getValue();
+					controlVolumen.setValue(vol);
+				}
+			});
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	//METODO HAS PERDIDO, activa la visibilidad del gif, boton de salir, y vuelve a la pantalla de inicio
+	//METODO HAS PERDIDO, activa la visibilidad del gif, boton de salir, vuelve a la pantalla de inicio,para la cancion y reproduce FondoHasPerdido
 	public void hasPerdido(JLabel lblImgPerder,JLabel lblImgSalir) {
 		//Se activa gif has perdido y botones
 		lblImgPerder.setVisible(true);
@@ -615,11 +630,17 @@ public class Batalla extends JFrame {
 		try {
 			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			sonido = AudioSystem.getClip();
-			//CORREGIR CONTROL VOLUMEN
-			//controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.open(audio);
+			controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+			//Controlador de volumen
+			jsVol.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					vol=jsVol.getValue();
+					controlVolumen.setValue(vol);
+				}
+			});
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -628,6 +649,12 @@ public class Batalla extends JFrame {
 	
 	//METODO CONTINUAR
 	public void continuar(JLabel lblNombreContrincante,JLabel imgContrincante,JProgressBar barraVidaContrincante,JProgressBar barraDefensaContrincante) {
+		//Se reactivan los labels de accion del personaje
+		lblAtaque.setVisible(true);
+		lblDefensa.setVisible(true);
+		lblCurar.setVisible(true);
+		
+		//Se invisibilizan los labels de has ganado y se cambia la imagen del contrincante
 		String imgC = "P" + VentanaJuego.personajes[inxC].getNombre().toLowerCase() + ".jpg";
 		lblHasGanado.setVisible(false);
 		lblHasGanadoSalir.setVisible(false);
@@ -642,11 +669,9 @@ public class Batalla extends JFrame {
 			ruta="src/sounds/FondoBatalla2.wav";
 			break;
 		case 2:
-			System.out.println("Activar ruta 3");
 			ruta="src/sounds/FondoBatalla3.wav";
 			break;
 		case 3:
-			System.out.println("Activar ruta 3");
 			ruta="src/sounds/FondoBatalla4.wav";
 			break;
 		case 4:
@@ -666,11 +691,17 @@ public class Batalla extends JFrame {
 		try {
 			audio = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			sonido = AudioSystem.getClip();
-			//CORREGIR CONTROL VOLUMEN
-			//controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.open(audio);
+			controlVolumen =(FloatControl)sonido.getControl(FloatControl.Type.MASTER_GAIN);
 			sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
+			//Controlador de volumen
+			jsVol.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					vol=jsVol.getValue();
+					controlVolumen.setValue(vol);
+				}
+			});
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 		}
